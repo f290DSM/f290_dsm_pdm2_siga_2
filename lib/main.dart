@@ -14,9 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: mColorGrena,
-          accentColor: mColorGrey,
+        useMaterial3: false,
+        colorScheme: ColorScheme.fromSeed(seedColor: mColorGrena).copyWith(
+          primary: mColorGrena,
+          secondary: mColorGrey,
         ),
       ),
       home: const MyHomePage(title: 'SIGA 2.0'),
@@ -43,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   int c = 0;
+  var _slider = 5.0;
 
   @override
   Widget build(BuildContext context) {
@@ -51,17 +53,44 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-            10,
-            (index) => Container(
-              height: 50,
-              width: 50,
-              color: mColorGrena.withAlpha(c += 25),
+        child: Column(children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                  labelText: 'LabelText',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)))),
             ),
           ),
-        ),
+          FilledButton(onPressed: () {}, child: const Text('FilledButton')),
+          const Card(
+            elevation: 5,
+            child: SizedBox(
+              height: 100,
+              width: 300,
+            ),
+          ),
+          OutlinedButton(onPressed: () {}, child: const Text('OutlinedButton')),
+          Slider(
+            min: 1,
+            max: 10,
+            divisions: 10,
+            value: _slider,
+            onChanged: (value) => setState(() => _slider = value),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              10,
+              (index) => Container(
+                height: 30,
+                width: 30,
+                color: mColorGrena.withAlpha(c += 25),
+              ),
+            ),
+          ),
+        ]),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
