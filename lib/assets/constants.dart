@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
 
-const primaryColor = Color(0xFF8E0000);
+//http://mcg.mbitson.com/ Creating a Color Palette For Flutter.
 
-const accentColor = Color(0xFF8F8E8E);
-// const primaryColor = Color(0xFFBB6666);
-// const accentColor = Color(0xFFBCBBBB);
-
-MaterialColor mColorGrena = MaterialColor(primaryColor.value, <int, Color>{
-  50: primaryColor.withOpacity(0.1),
-  100: primaryColor.withOpacity(0.2),
-  200: primaryColor.withOpacity(0.3),
-  300: primaryColor.withOpacity(0.4),
-  400: primaryColor.withOpacity(0.5),
-  500: primaryColor.withOpacity(0.6),
-  600: primaryColor.withOpacity(0.7),
-  700: primaryColor.withOpacity(0.8),
-  800: primaryColor.withOpacity(0.9),
-  900: primaryColor.withOpacity(1.0),
+MaterialColor colorpalette =
+    const MaterialColor(_colorpalettePrimaryValue, <int, Color>{
+  50: Color(0xFFFFEBEE),
+  100: Color(0xFFFFCDD2),
+  200: Color(0xFFEF9A9A),
+  300: Color(0xFFE57373),
+  400: Color(0xFFEF5350),
+  500: Color(_colorpalettePrimaryValue),
+  600: Color(0xFFE53935),
+  700: Color(0xFFD32F2F),
+  800: Color(0xFFC62828),
+  900: Color(0xFFB71C1C),
 });
+const int _colorpalettePrimaryValue = 0xFFF44336;
 
-MaterialColor mColorGrey = MaterialColor(accentColor.value, <int, Color>{
-  50: accentColor.withOpacity(0.1),
-  100: accentColor.withOpacity(0.2),
-  200: accentColor.withOpacity(0.3),
-  300: accentColor.withOpacity(0.4),
-  400: accentColor.withOpacity(0.5),
-  500: accentColor.withOpacity(0.6),
-  600: accentColor.withOpacity(0.7),
-  700: accentColor.withOpacity(0.8),
-  800: accentColor.withOpacity(0.9),
-  900: accentColor.withOpacity(1.0),
+const MaterialColor colorpaletteAccent =
+    MaterialColor(_colorpaletteAccentValue, <int, Color>{
+  100: Color(0xFFFF8A80),
+  200: Color(_colorpaletteAccentValue),
+  400: Color(0xFFFF1744),
+  700: Color(0xFFD50000),
 });
+const int _colorpaletteAccentValue = 0xFFFF5252;
