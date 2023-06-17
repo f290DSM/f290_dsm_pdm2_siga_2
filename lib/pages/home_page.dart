@@ -14,13 +14,27 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text('Home Page'),
+        title: Row(
+          children: const [
+            Icon(Icons.home),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: Text(
+                'Pagina Inicial',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
-      endDrawer: const SafeArea(child: DrawerNavigator()),
+      endDrawer: const SafeArea(
+        child: DrawerNavigator(),
+      ),
       body: ListView(
         children: [
+          CardForHomePage(),
+          CardForHomePage(),
+          CardForHomePage(),
           CardForHomePage(),
           CardForHomePage(),
           CardForHomePage(),

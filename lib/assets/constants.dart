@@ -2,26 +2,24 @@ import 'package:flutter/material.dart';
 
 //http://mcg.mbitson.com/ Creating a Color Palette For Flutter.
 
-MaterialColor colorpalette =
-    const MaterialColor(_colorpalettePrimaryValue, <int, Color>{
-  50: Color(0xFFFFEBEE),
-  100: Color(0xFFFFCDD2),
-  200: Color(0xFFEF9A9A),
-  300: Color(0xFFE57373),
-  400: Color(0xFFEF5350),
-  500: Color(_colorpalettePrimaryValue),
-  600: Color(0xFFE53935),
-  700: Color(0xFFD32F2F),
-  800: Color(0xFFC62828),
-  900: Color(0xFFB71C1C),
+const MaterialColor kRedColor = MaterialColor(kRedPrimary, <int, Color>{
+  50: Color(0xFFF6E0E0),
+  100: Color(0xFFE8B3B3),
+  200: Color(0xFFD98080),
+  300: Color(0xFFC94D4D),
+  400: Color(0xFFBE2626),
+  500: Color(kRedPrimary),
+  600: Color(0xFFAB0000),
+  700: Color(0xFFA20000),
+  800: Color(0xFF990000),
+  900: Color(0xFF8A0000),
 });
-const int _colorpalettePrimaryValue = 0xFFF44336;
+const int kRedPrimary = 0xFFB20000;
 
-const MaterialColor colorpaletteAccent =
-    MaterialColor(_colorpaletteAccentValue, <int, Color>{
-  100: Color(0xFFFF8A80),
-  200: Color(_colorpaletteAccentValue),
-  400: Color(0xFFFF1744),
-  700: Color(0xFFD50000),
+const MaterialColor kRedColorAccent = MaterialColor(kRedAccent, <int, Color>{
+  100: Color(0xFFFFB6B6),
+  200: Color(kRedAccent),
+  400: Color(0xFFFF5050),
+  700: Color(0xFFFF3636),
 });
-const int _colorpaletteAccentValue = 0xFFFF5252;
+const int kRedAccent = 0xFFFF8383;

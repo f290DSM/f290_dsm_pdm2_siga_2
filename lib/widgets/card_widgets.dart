@@ -1,3 +1,6 @@
+import 'package:f290_dsm_pdm2_siga_2/assets/constants.dart';
+import 'package:f290_dsm_pdm2_siga_2/widgets/card_expand_widgets.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -14,79 +17,94 @@ class CardForHomePage extends StatelessWidget {
     const Duration(days: 31),
   );
 
+  var faker = Faker();
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Card(
+    return Card(
       child: SizedBox(
-          height: 382,
-          width: MediaQuery.of(context).size.width,
-          child: InkWell(
-            onTap: () {},
-            splashColor: Colors.redAccent.shade100,
-            child: SizedBox(
-              height: 382,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 72,
-                    child: ListTile(
-                      leading: const Icon(size: 40, Icons.person),
-                      title: const Text('FATEC'),
-                      subtitle: Text(
-                        timeago.format(
-                          minAgo,
-                          locale: 'pt_BR',
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 194,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.fitWidth,
-                        image: NetworkImage(
-                            "https://images.pexels.com/photos/1674752/pexels-photo-1674752.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 72,
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Acao 1',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Acao 1',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+        height: 382,
+        width: MediaQuery.of(context).size.width,
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const CardExpand(),
               ),
+            );
+          },
+          splashColor: kRedColorAccent,
+          child: SizedBox(
+            height: 382,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 72,
+                  child: ListTile(
+                    leading:
+                        const Icon(size: 40, Icons.person, color: kRedColor),
+                    title: Text(
+                      '${faker.person.firstName()}',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    subtitle: Text(
+                      style: const TextStyle(color: Colors.grey),
+                      timeago.format(
+                        minAgo,
+                        locale: 'pt_BR',
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 180,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.fitWidth,
+                      image: NetworkImage(
+                        faker.image.image(
+                          random: true,
+                          keywords: ['programming'],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 72,
+                  child: ListTile(
+                    subtitle: Text(
+                      style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      faker.lorem.sentence(),
+                    ),
+                    title: Text('${faker.company.name()}',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.share_outlined),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.favorite_border_outlined),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-          )),
-    ));
+          ),
+        ),
+      ),
+    );
   }
 }
