@@ -2,6 +2,7 @@ import 'package:f290_dsm_pdm2_siga_2/assets/constants.dart';
 import 'package:f290_dsm_pdm2_siga_2/widgets/card_expand_widgets.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class CardForHomePage extends StatelessWidget {
@@ -10,13 +11,9 @@ class CardForHomePage extends StatelessWidget {
   final DateTime minAgo = DateTime.now().subtract(
     const Duration(minutes: 1),
   );
-  final DateTime dayAgo = DateTime.now().subtract(
-    const Duration(days: 1),
-  );
-  final DateTime monthAgo = DateTime.now().subtract(
-    const Duration(days: 31),
-  );
-
+  final _future = Supabase.instance.client
+      .from('noticia')
+      .select<List<Map<String, dynamic>>>();
   var faker = Faker();
 
   @override
