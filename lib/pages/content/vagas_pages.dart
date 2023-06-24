@@ -1,31 +1,33 @@
 import 'package:f290_dsm_pdm2_siga_2/assets/constants.dart';
-import 'package:f290_dsm_pdm2_siga_2/widgets/card_expand_widgets.dart';
-import 'package:f290_dsm_pdm2_siga_2/widgets/vagas_card.dart';
+import 'package:f290_dsm_pdm2_siga_2/widgets/drawer_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class VagasPage extends StatefulWidget {
-  const VagasPage({super.key});
+  const VagasPage({Key? key}) : super(key: key);
 
   @override
   State<VagasPage> createState() => _VagasPageState();
 }
 
-final _vagas =
-    Supabase.instance.client.from('vaga').select<List<Map<String, dynamic>>>();
-
 class _VagasPageState extends State<VagasPage> {
+  int expandedIndex = -1;
+
+  final _vagas = Supabase.instance.client
+      .from('vaga')
+      .select<List<Map<String, dynamic>>>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: DrawerNavigator(),
       appBar: AppBar(
         title: Row(
           children: const [
-            Icon(Icons.business_center),
+            Icon(Icons.home),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                'Vagas',
+                'Vagas de Emprego',
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -40,97 +42,85 @@ class _VagasPageState extends State<VagasPage> {
               child: CircularProgressIndicator(),
             );
           }
-          final noticias = snapshot.data!;
+          final vagas = snapshot.data!;
           return ListView.builder(
-            itemCount: noticias.length,
+            itemCount: vagas.length,
             itemBuilder: ((context, index) {
-              final sbDb = noticias[index];
+              final supaBaseVaga = vagas[index];
+              final isExpanded = expandedIndex == index;
               return Card(
-                child: SizedBox(
-                  height: 382,
-                  width: MediaQuery.of(context).size.width,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const CardExpand(),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      if (expandedIndex == index) {
+                        expandedIndex = -1;
+                      } else {
+                        expandedIndex = index;
+                      }
+                    });
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              supaBaseVaga['logo_empresa'],
+                            ),
+                          ),
+                          title: Text(
+                            supaBaseVaga['nome_empresa'],
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
-                      );
-                    },
-                    splashColor: kRedColorAccent,
-                    child: SizedBox(
-                      height: 382,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 72,
-                            child: ListTile(
-                              leading: const Icon(
-                                  size: 40, Icons.person, color: kRedColor),
-                              title: Text(
-                                sbDb['sigla_curso'],
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              subtitle: Text(
-                                sbDb['descricao_curso'],
-                                style: const TextStyle(color: Colors.grey),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 180,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.fitWidth,
-                                image: NetworkImage(
-                                  sbDb['url_imagem'],
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 72,
-                            child: ListTile(
-                              subtitle: Text(
-                                sbDb['conteudo'],
-                                style: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              title: Text(
-                                sbDb['titulo'],
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.share_outlined),
-                                  onPressed: () {},
-                                ),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Row(children: [
-                                    Text(
-                                      style: TextStyle(color: Colors.black),
-                                      sbDb['curtidas'].toString(),
-                                    ),
-                                    const Icon(
-                                        color: Colors.black,
-                                        Icons.favorite_border_outlined),
-                                  ]),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
                       ),
-                    ),
+                      SizedBox(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(16, 16, 0, 0),
+                          child: Text(
+                            supaBaseVaga['titulo'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: isExpanded ? null : 0,
+                        child: ListTile(
+                          subtitle: Text(
+                            supaBaseVaga['descricao'],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.share_outlined),
+                              onPressed: () {},
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: Row(
+                                children: [
+                                  Text(
+                                    supaBaseVaga['curtidas'].toString(),
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  const Icon(
+                                    color: Colors.black,
+                                    Icons.favorite_border_outlined,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
