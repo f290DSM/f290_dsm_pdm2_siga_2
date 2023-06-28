@@ -37,7 +37,7 @@ class _AccountPageState extends State<AccountPage> {
       );
     } catch (error) {
       SnackBar(
-        content: const Text('Unexpected error occurred'),
+        content: const Text('Um erro inesperado aconteceu.'),
         backgroundColor: Theme.of(context).colorScheme.error,
       );
     } finally {
@@ -67,7 +67,7 @@ class _AccountPageState extends State<AccountPage> {
       await supabase.from('profiles').upsert(updates);
       if (mounted) {
         const SnackBar(
-          content: Text('Successfully updated profile!'),
+          content: Text('Perfil atualizado com sucesso!'),
         );
       }
     } on PostgrestException catch (error) {
@@ -77,7 +77,7 @@ class _AccountPageState extends State<AccountPage> {
       );
     } catch (error) {
       SnackBar(
-        content: const Text('Unexpected error occurred'),
+        content: const Text('Um erro inesperado aconteceu.'),
         backgroundColor: Theme.of(context).colorScheme.error,
       );
     } finally {
@@ -99,7 +99,7 @@ class _AccountPageState extends State<AccountPage> {
       );
     } catch (error) {
       SnackBar(
-        content: const Text('Unexpected error occurred'),
+        content: const Text('Um erro inesperado aconteceu.'),
         backgroundColor: Theme.of(context).colorScheme.error,
       );
     } finally {
@@ -125,30 +125,42 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(title: const Text('Siga 2.0 - Perfil')),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-        children: [
-          TextFormField(
-            controller: _usernameController,
-            decoration: const InputDecoration(labelText: 'User Name'),
-          ),
-          const SizedBox(height: 18),
-          TextFormField(
-            controller: _websiteController,
-            decoration: const InputDecoration(labelText: 'Website'),
-          ),
-          const SizedBox(height: 18),
-          ElevatedButton(
-            onPressed: _loading ? null : _updateProfile,
-            child: Text(_loading ? 'Saving...' : 'Update'),
-          ),
-          const SizedBox(height: 18),
-          TextButton(onPressed: _signOut, child: const Text('Sign Out')),
-        ],
-      ),
+              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+              children: [
+                TextFormField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(labelText: 'Nome do aluno'),
+                ),
+                const SizedBox(height: 18),
+                TextFormField(
+                  controller: _websiteController,
+                  decoration: const InputDecoration(labelText: 'Curso'),
+                ),
+                const SizedBox(height: 18),
+                FilledButton(
+                  onPressed: _loading ? null : _updateProfile,
+                  child:
+                      Text(_loading ? 'Salvando...' : 'Atualizar Informações'),
+                ),
+                const SizedBox(height: 18),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed('/grades-and-absences');
+                  },
+                  child: const Text('Notas e Faltas'),
+                ),
+                const SizedBox(height: 18),
+                FilledButton(
+                  onPressed: _signOut,
+                  child: const Text('Sair'),
+                ),
+              ],
+            ),
     );
   }
 }

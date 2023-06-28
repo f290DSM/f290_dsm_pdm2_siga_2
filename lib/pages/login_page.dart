@@ -26,11 +26,11 @@ class _LoginPageState extends State<LoginPage> {
       await supabase.auth.signInWithOtp(
         email: _emailController.text.trim(),
         emailRedirectTo:
-        kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
+            kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Check your email for a login link!')),
+          const SnackBar(content: Text('Para completar o login, acesse o link de confirmação enviado para seu e-mail.')),
         );
         _emailController.clear();
       }
@@ -76,20 +76,21 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
+      appBar: AppBar(title: const Text('Siga 2.0 - Entrar')),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
-          const Text('Sign in via the magic link with your email below'),
+          const Text('Para começar, informe seu e-mail'),
           const SizedBox(height: 18),
           TextFormField(
             controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(labelText: 'E-mail'),
           ),
           const SizedBox(height: 18),
-          ElevatedButton(
+          FilledButton(
             onPressed: _isLoading ? null : _signIn,
-            child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
+            child: Text(
+                _isLoading ? 'Carregando...' : 'Enviar link de confirmação'),
           ),
         ],
       ),
