@@ -1,102 +1,125 @@
+import 'package:f290_dsm_pdm2_siga_2/telefones.dart';
 import 'package:flutter/material.dart';
-import 'assets/constants.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Secretaria',
       theme: ThemeData(
-        useMaterial3: false,
-        colorScheme: ColorScheme.fromSeed(seedColor: mColorGrena).copyWith(
-          primary: mColorGrena,
-          secondary: mColorGrey,
+        primarySwatch: Colors.red,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Secretaria'),
         ),
-      ),
-      home: const MyHomePage(title: 'SIGA 2.0'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  int c = 0;
-  var _slider = 5.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                  labelText: 'LabelText',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)))),
+        endDrawer: const Drawer(),
+        body: Center(
+            child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: linhaTexto("Requerimento"),
             ),
-          ),
-          FilledButton(onPressed: () {}, child: const Text('FilledButton')),
-          const Card(
-            elevation: 5,
-            child: SizedBox(
-              height: 100,
-              width: 300,
-            ),
-          ),
-          OutlinedButton(onPressed: () {}, child: const Text('OutlinedButton')),
-          Slider(
-            min: 1,
-            max: 10,
-            divisions: 10,
-            value: _slider,
-            onChanged: (value) => setState(() => _slider = value),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              10,
-              (index) => Container(
-                height: 30,
-                width: 30,
-                color: mColorGrena.withAlpha(c += 25),
+            criarBotao(texto: "Matricula"),
+            criarBotao(texto: "Documentos", cor: Colors.green),
+            criarBotao(texto: "Trancamento", cor: Colors.blue),
+            linhaTexto("Contato"),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Telefones()),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.deepPurple,
+                      ),
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.lightBlue,
+                    ),
+                    height: 100,
+                    width: 100,
+                  ),
+                ],
               ),
             ),
-          ),
-        ]),
+            const SizedBox(height: 8),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Telefones"),
+                SizedBox(width: 50),
+                Text("Sugestões"),
+              ],
+            ),
+          ],
+        )),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(Icons.arrow_back),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Padding criarBotao({required String texto, Color? cor}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: SizedBox(
+          width: double.infinity,
+          height: 48,
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: cor),
+              onPressed: () {},
+              child: Text(texto))),
+    );
+  }
+
+  linhaTexto(String texto) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Row(
+        children: [
+          const Expanded(
+              child: Divider(
+            thickness: 5,
+            indent: 16,
+            endIndent: 16,
+            height: 16,
+          )),
+          Text(texto),
+          const Expanded(
+              child: Divider(
+            thickness: 5,
+            indent: 16,
+            endIndent: 16,
+            height: 16,
+          )),
+        ],
+      ),
     );
   }
 }
